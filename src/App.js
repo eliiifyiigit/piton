@@ -20,7 +20,7 @@ const App = () => {
 
 
   useEffect(() => {
-    axios.get("http://localhost:3000/events").then(res => {
+    axios.get("http://localhost:3004/events").then(res => {
       setEventsData(res.data)
     })
   }, [eventsData])
@@ -29,16 +29,17 @@ const App = () => {
     setShow(false)
     const item = newEvent
     const saveObject = {
-      id: Date.now(), start, end, allDay: true, title: item
+      id: Date.now(), start, end, title: item
     }
 
     if (item)
-      axios.post("http://localhost:3000/events", saveObject).then(res => {
+      axios.post("http://localhost:3004/events", saveObject).then(res => {
         setNewEvent("")
       })
   }
 
   const handleSelect = ({ start, end }) => {
+    console.log(start)
     setStart(start)
     setEnd(end)
     setShow(true)
@@ -47,7 +48,8 @@ const App = () => {
   return (
     <div>
       <Calendar
-        views={["day", "agenda", "work_week", "month"]}
+        views={["agenda", "month"]}
+        //views={["day", "agenda", "work_week", "month"]}
         selectable
         localizer={localizer}
         defaultDate={new Date()}
@@ -68,7 +70,7 @@ const App = () => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Please write something"
+                placeholder="Please write your event detail"
                 autoFocus
                 value={newEvent}
                 onChange={(e) => setNewEvent(e.target.value)}
